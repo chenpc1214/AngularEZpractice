@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onSubmit(sth)" #sth = ngForm>
+
+        <div id="user-data" name ="user-data" ngModelGroup="PatchData" #Group = "ngModelGroup">
+
+          <div class="form-group" >
+            <label for="username" >使用者名稱</label>
+            <input type="text" id="username" class="form-control" ngModel name="username" required  #username = "ngModel">
+          </div>
+          <span class = help-block *ngIf = "!username.valid && username.touched">有錯誤</span>
+
+          <button class="btn btn-success d-block  mt-3" type="button" (click)="Suggest()">隨機產出</button>
+
+          <div class="form-group" >
+            <label for="email">信箱</label>
+            <input type="email" id="email" class="form-control" ngModel name="email" required email #email="ngModel">
+          </div>
+          <span class = help-block *ngIf = "!email.valid && email.touched" >有錯誤</span> 
+
+        </div>
+
+        <div class="form-group">
+          <label for="secret">秘密問題</label>
+          <select id="secret" class="form-control" [ngModel]="defaultQuestion" name="secret">
+            <option value="pet">Your first Pet?</option>
+            <option value="teacher">Your first teacher?</option>
+          </select>
+        </div>
+
+        <div class="form-group mt-3">
+          <textarea class="form-control" row=3  [(ngModel)]="MyValue" name="QA"></textarea>
+        </div>
+        <p>你的回答：{{MyValue}}</p>
+
+        <div class="mt-3 border border-2 border-secondary">
+
+          <p >使用ngModelGroup，抓取某範圍的數值，做驗證(兩者不能為空)</p>
+
+          <p *ngIf="!Group.valid && Group.touched" style="color: red;">使用者名稱不能為空值</p>
+          <p *ngIf="!Group.valid && Group.touched" style="color: red;">信箱欄位不能為空值</p>
+
+        </div>
+
+        <div class="mt-3 border border-2 border-secondary">
+          <p >按下按鈕後，將表單的數值吐出在螢幕上</p>
+
+          <div *ngIf="SubmitOrNot">
+
+            <p >使用者名稱：{{MyData.username}}</p>
+            <p >信箱：{{MyData.email}}</p>
+            <p >秘密：{{MyData.secret}}</p>
+            <p >回答問題：{{MyData.QA}}</p>
+
+          </div>
+
+        </div>
+
+        <button class="btn btn-primary mt-3" type="submit" [disabled] = !sth.valid>送出</button>
+
+      </form>
+    </div>
+  </div>
+</div>
