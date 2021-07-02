@@ -1,0 +1,48 @@
+
+1. 更新 local Angulat版本的指令
+
+    npm uninstall --save-dev angular-cli //先別用
+
+    npm cache verify           //先別用
+
+    npm install --save --legacy-peer-deps
+
+    npm update @angular/cli --save --legacy-peer-deps
+
+2.檔案中的專案角色
+
+   (2-1)recipe-item ：個別點選的單一元件
+   (2-2)recipe-list：個別點選的單一元件，組成的一堆按鈕元件，內涵陣列資料
+   (2-4)recipe-detail：顯示recipe-list單一資料的原件
+   (2-4)recipe-component：它是整合recipe-list 與 recipe-detail的最後葉面
+   
+
+3.在recipes-item.component.ts 一定要用到 (click)="onSelected()"，去觸發onSelected()的發射器，不然通知不到父層它有點選
+
+4.這邊的事件傳遞過程
+
+   (4-1)當使用者點選左方按鈕列，其中一個，會先觸發recipe-item中(click)事件，它會去呼叫onSelect()裡面的發射器，引發起始事件向外傳遞
+
+   (4-2)接著在recipe-list 因為有<recipe-item>這標籤，也必須要出發其事件，所以使用屬性綁定方式，去觸發內部的發射器名稱recipeSelected，
+        觸發後，因為recipe-list內部有多筆資料，但是只須向最終元件recipe-component個別發出單一數值，所以必須在recipe-list.html
+        又再定義一個onRecipeSelected(recipe:Recipe)函式內部也是一個發射器，發射參數recipe:Recipe代表單一元件
+
+    (4-3)最後才在最終元件recipe-component，有<recipe-list>標籤處，觸發recipe-list內的recipeWasSelected的發射器，讓他發出單一值
+        好讓recipe-component的物件selectRecipe可以拿到
+
+    (4-4) recipe-component已經可以藉由物件拿到值後，為了讓子物件recipe-detail也拿到，必須在recipe-detail內使用@Input()修飾子
+          創一個物件來接，接完之後再發給自身內html
+
+5.SHOPPING-LIST.component 欄位的增加
+
+   角色：最終元件shopping-list，子元件shopping-edit
+
+   (5-1)子元件要做的
+   ● html使用local reference去拿到某區塊的html
+   ● ts檔使用@viewChild()去接local reference的字串，不要有#
+   ● 拿到所有相關元素後，造一個發射器，發出@viewChild()物件的東西
+   ● 接著由(父層)最終元件shopping-list，呼叫子元件的發射器，送出值由最終元件造自己的函示去接
+   
+
+
+   

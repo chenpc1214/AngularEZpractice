@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-xs-12">
+    <img [src]="recipe.imagePath" alt="{{recipe.name}}" class="img-responsive" style="max-height: 300px;">
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1>{{recipe.name}}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="btn-group">
+      <button
+        type="button"
+        class="btn btn-primary dropdown-toggle">
+        管理菜單 <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">消費清單</a></li>
+        <li><a href="#">編輯菜單</a></li>
+        <li><a href="#">刪除菜單</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    {{recipe.description}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    成分
+  </div>
+</div>
